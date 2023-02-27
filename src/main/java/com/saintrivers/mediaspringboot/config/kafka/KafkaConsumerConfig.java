@@ -3,7 +3,8 @@ package com.saintrivers.mediaspringboot.config.kafka;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.saintrivers.mediaspringboot.feature.ChatUseCase;
+import com.saintrivers.mediaspringboot.feature.chat.ChatUseCase;
+import com.saintrivers.mediaspringboot.feature.conversation.ConversationUseCase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -27,6 +28,7 @@ public class KafkaConsumerConfig {
     @Value("${custom.kafka.group}")
     private String kafkaGroup;
 
+    // ================================ chat config =======================================
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -43,6 +45,24 @@ public class KafkaConsumerConfig {
         );
     }
 
+    // ================================ conversation config =======================================
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, ConversationUseCase.ConversationResponse> kafkaConversationListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ConversationUseCase.ConversationResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(conversationFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ConversationUseCase.ConversationResponse> conversationFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigurations(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ConversationUseCase.ConversationResponse.class)
+        );
+    }
+
+    // ================================ consumer config =======================================
     @Bean
     public Map<String, Object> consumerConfigurations() {
         Map<String, Object> configurations = new HashMap<>();

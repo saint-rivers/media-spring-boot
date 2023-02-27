@@ -1,6 +1,6 @@
 package com.saintrivers.mediaspringboot.web;
 
-import com.saintrivers.mediaspringboot.feature.ChatUseCase;
+import com.saintrivers.mediaspringboot.feature.chat.ChatUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class ChatMessageController {
     private String chatTopic;
 
     @MessageMapping("/messages/send")
-    public ResponseEntity<Void> sendMessage(@Payload ChatUseCase.ChatMessageRequest chatMessageRequest){
+    public ResponseEntity<Void> sendMessage(@Payload ChatUseCase.ChatMessageRequest chatMessageRequest) {
         kafkaTemplate.send(chatTopic, chatMessageRequest);
         return ResponseEntity.ok().build();
     }

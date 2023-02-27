@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "chat_message")
 @Data
@@ -26,7 +27,7 @@ public class ChatMessage {
     private LocalDateTime timeSent;
 
     @Column("sender_id")
-    private String senderId;
+    private UUID senderId;
 
     @Column("target_chat_id")
     private String targetChatId;

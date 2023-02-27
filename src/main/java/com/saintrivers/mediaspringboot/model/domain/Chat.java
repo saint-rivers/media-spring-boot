@@ -1,6 +1,7 @@
 package com.saintrivers.mediaspringboot.model.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -13,11 +14,15 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Chat {
 
     @Id
     @Column("chat_id")
     private Long id;
+
+    @Column("group_name")
+    private String groupName;
 
     @Column("group_profile")
     private String groupProfile;

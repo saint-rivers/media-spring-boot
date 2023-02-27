@@ -3,7 +3,8 @@ package com.saintrivers.mediaspringboot.config.kafka;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.saintrivers.mediaspringboot.feature.ChatUseCase;
+import com.saintrivers.mediaspringboot.feature.chat.ChatUseCase;
+import com.saintrivers.mediaspringboot.feature.conversation.ConversationUseCase;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,16 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<Integer, ChatUseCase.ChatMessageRequest> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<Integer, ConversationUseCase.ConversationResponse> conversationProducerFactory(){
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<Integer, ConversationUseCase.ConversationResponse> conversationTemplate(){
+        return new KafkaTemplate<>(conversationProducerFactory());
     }
 
 }

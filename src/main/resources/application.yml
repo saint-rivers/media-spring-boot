@@ -6,6 +6,9 @@ spring:
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
 
+jwt:
+  secret: anyothertimebutnow
+
 custom:
   kafka:
     group: spring-boot-api

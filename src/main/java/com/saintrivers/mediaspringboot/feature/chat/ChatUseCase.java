@@ -1,4 +1,4 @@
-package com.saintrivers.mediaspringboot.feature;
+package com.saintrivers.mediaspringboot.feature.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
