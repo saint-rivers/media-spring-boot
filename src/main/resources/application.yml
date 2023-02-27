@@ -5,3 +5,9 @@ spring:
     url: jdbc:postgresql://${PGHOST:localhost}/${PGDATABASE:postgres}
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
+
+custom:
+  kafka:
+    group: spring-boot-api
+    topic:
+      chat: chat-message

@@ -12,7 +12,7 @@ public class ChatMessageListener {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    @KafkaListener(topics = "chat-message", groupId = "kafka-chat")
+    @KafkaListener(topics = "${custom.kafka.topic.chat}", groupId = "${custom.kafka.group}")
     public void listenChatMessage(ChatUseCase.ChatMessageRequest chatMessageRequest){
         messagingTemplate.convertAndSend("/topic/user/" + chatMessageRequest.getTargetChatId(), chatMessageRequest);
     }

@@ -24,6 +24,9 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String kafkaBroker;
 
+    @Value("${custom.kafka.group}")
+    private String kafkaGroup;
+
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -44,7 +47,7 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfigurations() {
         Map<String, Object> configurations = new HashMap<>();
         configurations.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBroker);
-        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka-chat");
+        configurations.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroup);
         configurations.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
         configurations.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         configurations.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
