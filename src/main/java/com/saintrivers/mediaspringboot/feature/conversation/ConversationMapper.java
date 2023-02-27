@@ -13,6 +13,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ConversationMapper {
 
+    public ConversationUseCase.ConversationResponse toConversationResponse(Chat chat) {
+        return ConversationUseCase.ConversationResponse.builder()
+                .members(null)
+                .groupName(chat.getGroupName())
+                .groupProfile(chat.getGroupProfile())
+                .build();
+    }
+
     public ConversationUseCase.ConversationResponse toConversationResponse(Chat chat, List<UserGroup> userGroups, UUID subject) {
         List<UUID> members = userGroups.stream().map(UserGroup::getUser_id).collect(Collectors.toList());
         members.add(subject);

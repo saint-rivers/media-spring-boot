@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,13 @@ public class ConversationService implements ConversationUseCase {
         UUID subject = UUID.randomUUID();
         var conversation = conversationMapper.toConversationResponse(chat, userGroups, subject);
 
-        conversationSenderTemplate.send("conversation" , conversation);
+        conversationSenderTemplate.send("conversation", conversation);
+    }
+
+    @Override
+    public List<ConversationResponse> getByUserId(UUID id) {
+        return chatRepository.findAllByUserId(id)
+                .stream().map(conversationMapper::toConversationResponse)
+                .collect(Collectors.toList());
     }
 }

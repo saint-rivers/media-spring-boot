@@ -55,9 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/v1/**").permitAll()
-                        .requestMatchers("/ws-chat/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         // security filter chain config

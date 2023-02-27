@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,6 +16,11 @@ import java.net.URI;
 public class ConversationController {
 
     private final ConversationUseCase conversationUseCase;
+
+    @GetMapping("/{id}")
+    public List<ConversationUseCase.ConversationResponse> getConversations(@PathVariable UUID id){
+        return conversationUseCase.getByUserId(id);
+    }
 
     @PostMapping
     public ResponseEntity<Void> createConversation(
