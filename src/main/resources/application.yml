@@ -1,11 +1,7 @@
-
 spring:
+  profiles:
+    active: default,local
   datasource:
     url: jdbc:postgresql://${PGHOST:localhost}/${PGDATABASE:postgres}
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
