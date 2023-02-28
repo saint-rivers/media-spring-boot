@@ -1,7 +1,6 @@
 package com.saintrivers.mediaspringboot.model.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -9,27 +8,27 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Table(name = "chat")
+@Table(name = "chat_message")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Chat {
+public class Message {
 
     @Id
-    @Column("chat_id")
-    private Long id;
+    @Column("message_id")
+    private Long messageId;
 
-    @Column("group_name")
-    private String groupName;
+    @Column("content")
+    private String content;
 
-    @Column("group_profile")
-    private String groupProfile;
+    @Column("time_sent")
+    private LocalDateTime timeSent;
 
-    @Column("time_created")
-    private LocalDateTime timeCreated;
+    @Column("sender_id")
+    private UUID senderId;
 
-    @Column("last_updated")
-    private LocalDateTime lastUpdated;
+    @Column("target_chat_id")
+    private String targetConversationId;
 }

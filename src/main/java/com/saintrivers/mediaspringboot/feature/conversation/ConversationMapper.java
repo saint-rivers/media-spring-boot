@@ -1,6 +1,6 @@
 package com.saintrivers.mediaspringboot.feature.conversation;
 
-import com.saintrivers.mediaspringboot.model.domain.Chat;
+import com.saintrivers.mediaspringboot.model.domain.Conversation;
 import com.saintrivers.mediaspringboot.model.domain.UserGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ConversationMapper {
 
-    public ConversationUseCase.ConversationResponse toConversationResponse(Chat chat) {
+    public ConversationUseCase.ConversationResponse toConversationResponse(Conversation conversation) {
         return ConversationUseCase.ConversationResponse.builder()
-                .chatId(chat.getId())
+                .chatId(conversation.getId())
                 .members(null)
-                .groupName(chat.getGroupName())
-                .groupProfile(chat.getGroupProfile())
+                .groupName(conversation.getGroupName())
+                .groupProfile(conversation.getGroupProfile())
                 .build();
     }
 
-    public ConversationUseCase.ConversationResponse toConversationResponse(Chat chat, List<UserGroup> userGroups, UUID subject) {
+    public ConversationUseCase.ConversationResponse toConversationResponse(Conversation conversation, List<UserGroup> userGroups, UUID subject) {
         List<UUID> members = userGroups.stream().map(UserGroup::getUser_id).collect(Collectors.toList());
         members.add(subject);
 
         return ConversationUseCase.ConversationResponse.builder()
-                .chatId(chat.getId())
+                .chatId(conversation.getId())
                 .members(members)
-                .groupName(chat.getGroupName())
-                .groupProfile(chat.getGroupProfile())
+                .groupName(conversation.getGroupName())
+                .groupProfile(conversation.getGroupProfile())
                 .build();
     }
 }

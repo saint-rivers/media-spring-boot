@@ -2,7 +2,7 @@ package com.saintrivers.mediaspringboot.feature.conversation;
 
 import com.saintrivers.mediaspringboot.feature.chat.ChatMapper;
 import com.saintrivers.mediaspringboot.feature.chat.ChatRepository;
-import com.saintrivers.mediaspringboot.model.domain.Chat;
+import com.saintrivers.mediaspringboot.model.domain.Conversation;
 import com.saintrivers.mediaspringboot.model.domain.UserGroup;
 import com.saintrivers.mediaspringboot.model.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ConversationService implements ConversationUseCase {
 
     @Override
     public Long create(ConversationCreateRequest conversationCreateRequest) {
-        Chat chat = chatMapper.toChat(conversationCreateRequest);
+        Conversation chat = chatMapper.toChat(conversationCreateRequest);
         chat = chatRepository.save(chat);
 
         List<UserGroup> userGroups = userGroupMapper.toUserGroups(chat, conversationCreateRequest.memberIds());
@@ -55,7 +55,7 @@ public class ConversationService implements ConversationUseCase {
     public ConversationResponse getByConversationId(Long id) {
         var chat = chatRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("chat"));
+                .orElseThrow(() -> new ResourceNotFoundException("conversation"));
         return chatMapper.toChatResponse(chat);
     }
 }

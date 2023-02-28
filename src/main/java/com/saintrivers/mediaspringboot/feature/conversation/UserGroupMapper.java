@@ -1,6 +1,6 @@
 package com.saintrivers.mediaspringboot.feature.conversation;
 
-import com.saintrivers.mediaspringboot.model.domain.Chat;
+import com.saintrivers.mediaspringboot.model.domain.Conversation;
 import com.saintrivers.mediaspringboot.model.domain.UserGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserGroupMapper {
 
-    public List<UserGroup> toUserGroups(Chat chat, List<UUID> memberIds) {
+    public List<UserGroup> toUserGroups(Conversation conversation, List<UUID> memberIds) {
         return memberIds.stream()
                 .map(member -> UserGroup.builder()
                         // get user from context
                         .user_id(UUID.randomUUID())
-                        .chatId(chat.getId())
+                        .chatId(conversation.getId())
                         .build())
                 .toList();
     }

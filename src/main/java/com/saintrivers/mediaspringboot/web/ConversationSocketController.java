@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class ChatSocketController {
+public class ConversationSocketController {
 
     private final KafkaTemplate<Integer, ChatUseCase.ChatMessageRequest> kafkaTemplate;
 

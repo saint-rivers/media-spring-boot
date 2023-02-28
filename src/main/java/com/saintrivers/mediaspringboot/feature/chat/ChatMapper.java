@@ -1,7 +1,7 @@
 package com.saintrivers.mediaspringboot.feature.chat;
 
 import com.saintrivers.mediaspringboot.feature.conversation.ConversationUseCase;
-import com.saintrivers.mediaspringboot.model.domain.Chat;
+import com.saintrivers.mediaspringboot.model.domain.Conversation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ChatMapper {
 
-    public Chat toChat(ConversationUseCase.ConversationCreateRequest conversation) {
+    public Conversation toChat(ConversationUseCase.ConversationCreateRequest conversation) {
         var now = LocalDateTime.now();
-        return Chat.builder()
+        return Conversation.builder()
                 .id(null)
                 .groupName(conversation.groupName())
                 .groupProfile(conversation.groupProfile())
@@ -22,11 +22,11 @@ public class ChatMapper {
                 .build();
     }
 
-    public ConversationUseCase.ConversationResponse toChatResponse(Chat chat) {
+    public ConversationUseCase.ConversationResponse toChatResponse(Conversation conversation) {
         return ConversationUseCase.ConversationResponse.builder()
-                .chatId(chat.getId())
-                .groupProfile(chat.getGroupProfile())
-                .groupName(chat.getGroupName())
+                .chatId(conversation.getId())
+                .groupProfile(conversation.getGroupProfile())
+                .groupName(conversation.getGroupName())
                 .build();
     }
 }
