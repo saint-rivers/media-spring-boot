@@ -12,21 +12,25 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/conversations")
-@CrossOrigin("http://localhost:4200")
 public class ConversationController {
 
     private final ConversationUseCase conversationUseCase;
 
-    @GetMapping("/{id}")
-    public List<ConversationUseCase.ConversationResponse> getConversations(@PathVariable UUID id){
+    @GetMapping("/user/{id}")
+    public List<ConversationUseCase.ConversationResponse> getConversations(@PathVariable UUID id) {
         return conversationUseCase.getByUserId(id);
+    }
+
+    @GetMapping("/{id}")
+    public ConversationUseCase.ConversationResponse getChatById(@PathVariable Long id) {
+        return conversationUseCase.getByConversationId(id);
     }
 
     @PostMapping
     public ResponseEntity<Void> createConversation(
             @RequestBody ConversationUseCase.ConversationCreateRequest conversationCreateRequest
     ) {
-        conversationUseCase.create(conversationCreateRequest);
-        return ResponseEntity.created(URI.create("/api/v1/conversations/" + 1)).build();
+        Long conversationId = conversationUseCase.create(conversationCreateRequest);
+        return ResponseEntity.created(URI.create("/api/v1/conversations/" + conversationId)).build();
     }
 }

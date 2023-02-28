@@ -8,9 +8,11 @@ import java.util.UUID;
 
 public interface ConversationUseCase {
 
-    void create(ConversationCreateRequest conversationCreateRequest);
+    Long create(ConversationCreateRequest conversationCreateRequest);
 
     List<ConversationResponse> getByUserId(UUID id);
+
+    ConversationResponse getByConversationId(Long id);
 
     record ConversationCreateRequest(String groupName, String groupProfile, List<UUID> memberIds) {
     }

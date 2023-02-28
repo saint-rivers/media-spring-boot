@@ -19,4 +19,5 @@ public interface ChatUseCase {
         private String type;
     }
 
+
 }

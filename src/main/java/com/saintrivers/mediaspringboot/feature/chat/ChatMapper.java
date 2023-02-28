@@ -21,4 +21,12 @@ public class ChatMapper {
                 .timeCreated(now)
                 .build();
     }
+
+    public ConversationUseCase.ConversationResponse toChatResponse(Chat chat) {
+        return ConversationUseCase.ConversationResponse.builder()
+                .chatId(chat.getId())
+                .groupProfile(chat.getGroupProfile())
+                .groupName(chat.getGroupName())
+                .build();
+    }
 }

@@ -4,6 +4,7 @@ import com.saintrivers.mediaspringboot.feature.chat.ChatMapper;
 import com.saintrivers.mediaspringboot.feature.chat.ChatRepository;
 import com.saintrivers.mediaspringboot.model.domain.Chat;
 import com.saintrivers.mediaspringboot.model.domain.UserGroup;
+import com.saintrivers.mediaspringboot.model.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class ConversationService implements ConversationUseCase {
     private final KafkaTemplate<Integer, ConversationResponse> conversationSenderTemplate;
 
     @Override
-    public void create(ConversationCreateRequest conversationCreateRequest) {
+    public Long create(ConversationCreateRequest conversationCreateRequest) {
         Chat chat = chatMapper.toChat(conversationCreateRequest);
         chat = chatRepository.save(chat);
 
@@ -40,6 +41,7 @@ public class ConversationService implements ConversationUseCase {
         var conversation = conversationMapper.toConversationResponse(chat, userGroups, subject);
 
         conversationSenderTemplate.send("conversation", conversation);
+        return conversation.chatId();
     }
 
     @Override
@@ -47,5 +49,13 @@ public class ConversationService implements ConversationUseCase {
         return chatRepository.findAllByUserId(id)
                 .stream().map(conversationMapper::toConversationResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ConversationResponse getByConversationId(Long id) {
+        var chat = chatRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("chat"));
+        return chatMapper.toChatResponse(chat);
     }
 }
