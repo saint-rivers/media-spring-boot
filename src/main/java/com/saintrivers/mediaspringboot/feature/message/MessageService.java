@@ -24,14 +24,16 @@ public class MessageService implements MessageUseCase {
     }
 
     @Override
-    public void insertMessage(MessageRequest chatMessageRequest) {
+    public MessageResponse insertMessage(MessageRequest chatMessageRequest) {
         Message message = messageMapper.toMessage(chatMessageRequest, UUID.fromString("d4b6af2c-3cb5-4263-8ea7-d092cfddede5"));
-        messageRepository.save(message);
+        var payload = messageRepository.save(message);
+        return messageMapper.toMessageResponse(payload);
     }
 
     @Override
-    public void insertMessage(ChatUseCase.ChatMessageRequest chatMessageRequest) {
+    public MessageResponse insertMessage(ChatUseCase.ChatMessageRequest chatMessageRequest) {
         Message message = messageMapper.toMessage(chatMessageRequest, UUID.fromString("d4b6af2c-3cb5-4263-8ea7-d092cfddede5"));
-        messageRepository.save(message);
+        var payload = messageRepository.save(message);
+        return messageMapper.toMessageResponse(payload);
     }
 }

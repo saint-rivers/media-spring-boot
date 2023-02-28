@@ -10,9 +10,9 @@ public interface MessageUseCase {
 
     List<MessageResponse> getMessagesByConversationId(Long conversationId);
 
-    void insertMessage(ChatUseCase.ChatMessageRequest chatMessageRequest);
+    MessageResponse insertMessage(ChatUseCase.ChatMessageRequest chatMessageRequest);
 
-    void insertMessage(MessageRequest chatMessageRequest);
+    MessageResponse insertMessage(MessageRequest chatMessageRequest);
 
     record MessageRequest(String content, LocalDateTime timeSent, String type, Long targetConversationId) {
     }

@@ -33,6 +33,7 @@ public class MessageMapper {
                 .targetConversationId(message.getTargetConversationId())
                 .timeSent(message.getTimeSent())
                 .type(message.getType())
+                .senderId(message.getSenderId().toString())
                 .build();
     }
 

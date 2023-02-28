@@ -1,6 +1,5 @@
 package com.saintrivers.mediaspringboot.feature.chat;
 
-import com.saintrivers.mediaspringboot.feature.message.MessageMapper;
 import com.saintrivers.mediaspringboot.feature.message.MessageUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +18,8 @@ public class ChatMessageListener {
 
     @KafkaListener(topics = "${custom.kafka.topic.chat}" + ".2", groupId = "${custom.kafka.group}", containerFactory = "kafkaMessageListenerContainerFactory")
     public void listenMessages(MessageUseCase.MessageRequest chatMessageRequest) {
-        messagingTemplate.convertAndSend("/topic/user/" + chatMessageRequest.targetConversationId(), chatMessageRequest);
-        messageUseCase.insertMessage(chatMessageRequest);
+        var payload = messageUseCase.insertMessage(chatMessageRequest);
+        messagingTemplate.convertAndSend("/topic/user/" + payload.targetConversationId(), payload);
     }
 
     @KafkaListener(topics = "${custom.kafka.topic.chat}", groupId = "${custom.kafka.group}", containerFactory = "kafkaChatListenerContainerFactory")
