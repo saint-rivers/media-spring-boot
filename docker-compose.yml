@@ -7,6 +7,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
   zoo1:
     image: zookeeper:3.4.9
     hostname: zoo1
@@ -24,6 +25,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:5.5.1
     hostname: kafka1
+    restart: on-failure
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -57,8 +59,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    hostname: api
     ports:
       - "3030:8080"
+    restart: on-failure
     env_file:
       - .env
     environment:

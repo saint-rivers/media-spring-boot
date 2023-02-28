@@ -15,6 +15,7 @@ public class ConversationMapper {
 
     public ConversationUseCase.ConversationResponse toConversationResponse(Chat chat) {
         return ConversationUseCase.ConversationResponse.builder()
+                .chatId(chat.getId())
                 .members(null)
                 .groupName(chat.getGroupName())
                 .groupProfile(chat.getGroupProfile())
@@ -26,6 +27,7 @@ public class ConversationMapper {
         members.add(subject);
 
         return ConversationUseCase.ConversationResponse.builder()
+                .chatId(chat.getId())
                 .members(members)
                 .groupName(chat.getGroupName())
                 .groupProfile(chat.getGroupProfile())

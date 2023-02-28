@@ -1,5 +1,6 @@
 package com.saintrivers.mediaspringboot.feature.conversation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 import java.util.List;
@@ -15,6 +16,11 @@ public interface ConversationUseCase {
     }
 
     @Builder
-    record ConversationResponse(String groupName, String groupProfile, List<UUID> members) {
+    record ConversationResponse(
+            Long chatId,
+            String groupName,
+            String groupProfile,
+            @JsonInclude(JsonInclude.Include.NON_NULL) List<UUID> members
+    ) {
     }
 }
