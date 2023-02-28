@@ -1,6 +1,7 @@
 package com.saintrivers.mediaspringboot.model.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Message {
 
     @Id
@@ -30,5 +32,8 @@ public class Message {
     private UUID senderId;
 
     @Column("target_chat_id")
-    private String targetConversationId;
+    private Long targetConversationId;
+
+    @Column("type")
+    private String type;
 }

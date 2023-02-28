@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.saintrivers.mediaspringboot.feature.chat.ChatUseCase;
 import com.saintrivers.mediaspringboot.feature.conversation.ConversationUseCase;
+import com.saintrivers.mediaspringboot.feature.message.MessageUseCase;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,18 @@ public class KafkaProducerConfig {
     }
 
     @Bean
+    public ProducerFactory<Integer, MessageUseCase.MessageRequest> producerMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<Integer, MessageUseCase.MessageRequest> kafkaMessageTemplate() {
+        return new KafkaTemplate<>(producerMessageFactory());
+    }
+
+    // ===== old =====
+
+    @Bean
     public ProducerFactory<Integer, ChatUseCase.ChatMessageRequest> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
@@ -48,12 +61,12 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<Integer, ConversationUseCase.ConversationResponse> conversationProducerFactory(){
+    public ProducerFactory<Integer, ConversationUseCase.ConversationResponse> conversationProducerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<Integer, ConversationUseCase.ConversationResponse> conversationTemplate(){
+    public KafkaTemplate<Integer, ConversationUseCase.ConversationResponse> conversationTemplate() {
         return new KafkaTemplate<>(conversationProducerFactory());
     }
 

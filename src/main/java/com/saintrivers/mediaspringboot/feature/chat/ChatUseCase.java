@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public interface ChatUseCase {
 
@@ -14,8 +15,8 @@ public interface ChatUseCase {
     class ChatMessageRequest {
         private String content;
         private LocalDateTime timeSent;
-        private String senderId;
-        private String targetChatId;
+        private UUID senderId;
+        private Long targetChatId;
         private String type;
     }
 

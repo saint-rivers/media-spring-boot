@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.saintrivers.mediaspringboot.feature.chat.ChatUseCase;
 import com.saintrivers.mediaspringboot.feature.conversation.ConversationUseCase;
+import com.saintrivers.mediaspringboot.feature.message.MessageUseCase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -27,16 +28,31 @@ public class KafkaConsumerConfig {
 
     @Value("${custom.kafka.group}")
     private String kafkaGroup;
+    // ================================ message config =======================================
+    @Bean("kafkaMessageListenerContainerFactory")
+    ConcurrentKafkaListenerContainerFactory<String, MessageUseCase.MessageRequest> kafkaMessageListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, MessageUseCase.MessageRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(messageConsumerFactory());
+        return factory;
+    }
 
+    @Bean("messageConsumerFactory")
+    public ConsumerFactory<String, MessageUseCase.MessageRequest> messageConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigurations(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(MessageUseCase.MessageRequest.class)
+        );
+    }
     // ================================ chat config =======================================
-    @Bean
+    @Bean("kafkaChatListenerContainerFactory")
     ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> kafkaChatListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ChatUseCase.ChatMessageRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(chatConsumerFactory());
         return factory;
     }
 
-    @Bean
+    @Bean("chatConsumerFactory")
     public ConsumerFactory<String, ChatUseCase.ChatMessageRequest> chatConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfigurations(),
@@ -46,14 +62,14 @@ public class KafkaConsumerConfig {
     }
 
     // ================================ conversation config =======================================
-    @Bean
+    @Bean("kafkaConversationListenerContainerFactory")
     ConcurrentKafkaListenerContainerFactory<String, ConversationUseCase.ConversationResponse> kafkaConversationListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ConversationUseCase.ConversationResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(conversationConsumerFactory());
         return factory;
     }
 
-    @Bean
+    @Bean("conversationConsumerFactory")
     public ConsumerFactory<String, ConversationUseCase.ConversationResponse> conversationConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfigurations(),

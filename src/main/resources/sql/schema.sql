@@ -12,10 +12,13 @@ CREATE TABLE IF NOT EXISTS chat
 CREATE TABLE IF NOT EXISTS chat_message
 (
     message_id     serial PRIMARY KEY,
-    content        text      NOT NULL,
-    time_sent      timestamp NOT NULL,
-    sender_id      uuid      NOT NULL,
-    target_chat_id integer   NOT NULL REFERENCES chat (chat_id)
+    content        text        NOT NULL,
+    time_sent      timestamp   NOT NULL,
+    sender_id      uuid        NOT NULL,
+    target_chat_id integer     NOT NULL REFERENCES chat (chat_id),
+    type           varchar(10) NOT NULL DEFAULT 'message',
+
+    CHECK ( type IN ('message', 'sticker'))
 );
 
 CREATE TABLE IF NOT EXISTS user_group
